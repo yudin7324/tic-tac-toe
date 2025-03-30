@@ -18,12 +18,12 @@ html {
 }
 
 body {
-  font-family: "Rubik", serif;
-  font-size: 16px;
-  line-height: 1;
-  font-weight: 400;
-  // color: var(--color-text);
-  // background-color: var(--color-bg);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--color-silver);
+  background-color: var(--color-dark-navy);
+  font-family: "Outfit", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
@@ -51,7 +51,7 @@ table {
 input,
 textarea,
 button {
-  font-family: "Rubik", serif;
+  font-family: inherit;
   border: none;
   outline: none;
   background: none;
