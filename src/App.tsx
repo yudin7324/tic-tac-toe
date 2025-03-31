@@ -1,14 +1,17 @@
 import { FC } from 'react'
+import Button from '@/components/Button/Button'
 
 const App:FC = () => {
   return (
     <div className='main'>
       <div className='container'>
 
-        <a href="#" className='btn'>BUTTON 1</a>
-        <a href="#" className='btn-2'>BUTTON 1</a>
-        <button className='btn btn--secondary'>BUTTON 1</button>
-        <button className='btn-2 btn-2--secondary'>BUTTON 1</button>
+        <Button label="button" variant='primary' onClick={() => console.log('lskdjflksjd')} />
+        <Button label="button" variant='secondary' color="blue" onClick={() => console.log('lskdjflksjd')} />
+
+        <Button label="button" variant='primary' color="blue" onClick={() => console.log('lskdjflksjd')} />
+        <Button label="button" variant='secondary' color="silver" onClick={() => console.log('lskdjflksjd')} />
+
       </div>
     </div>
   )
