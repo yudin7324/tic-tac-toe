@@ -3,10 +3,14 @@
 @use "vars.scss";
 
 .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  max-width: 1288px;
+  max-width: 588px;
   margin: 0 auto;
   padding: 0 24px;
+  height: 100%;
 
   @media (min-width: 768px) {
     padding: 0 64px;
