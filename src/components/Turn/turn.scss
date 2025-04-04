@@ -1,0 +1,25 @@
+.turn {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  height: 52px;
+  border-radius: 10px;
+  box-shadow: inset 0 -4px 0 0 #10212a;
+  background: var(--color-semi-dark-navy);
+  padding: 13px 0 19px;
+
+  svg {
+    height: 20px;
+    width: 20px;
+    fill: var(--color-silver);
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.06em;
+    color: var(--color-silver);
+    text-transform: uppercase;
+  }
+}

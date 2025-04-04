@@ -1,0 +1,35 @@
+.stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-semi-dark-navy);
+  height: 72px;
+  border-radius: 15px;
+
+  &__title {
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: var(--color-dark-navy);
+  }
+
+  &__value {
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-dark-navy);
+  }
+
+  &--blue {
+    background-color: var(--color-light-blue)
+  }
+
+  &--yellow {
+    background-color: var(--color-light-yellow)
+  }
+
+  &--silver {
+    background-color: var(--color-silver)
+  }
+}
