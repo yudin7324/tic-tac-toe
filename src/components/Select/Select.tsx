@@ -2,11 +2,12 @@ import { FC } from 'react'
 import './select.scss'
 import IconSelectO from '@/components/icons/IconSelectO';
 import IconSelectX from '@/components/icons/IconSelectX';
+import { PlayerSymbol } from '@/types/types';
 
 
 interface SelectProps {
   playerSymbol: number;
-  setPlayerSymbol: (arg: number) => void;
+  setPlayerSymbol:(symbol: PlayerSymbol) => void;
 }
 
 const Select: FC<SelectProps> = ({ playerSymbol, setPlayerSymbol }) => {
