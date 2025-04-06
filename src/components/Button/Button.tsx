@@ -2,9 +2,9 @@ import { FC } from "react";
 import "./button.scss";
 
 interface ButtonProps {
+  label: string;
   variant?: "primary" | "secondary";
   color?: "blue" | "silver";
-  label: string;
   onClick?: () => void;
 }
 

@@ -44,7 +44,16 @@
 
 .h-l {
   font-weight: 700;
-  font-size: 40px;
+  font-size: 24px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+
+  @media (min-width: 768px) {
+    font-size: 40px;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
