@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GameConfig } from '@/types/types';
 
 type CellValue = 1 | 0 | null;
@@ -11,8 +11,8 @@ const WIN_PATTERNS = [
 ];
 
 export function useTicTacToe(config: GameConfig) {
-  const playerSymbol = config.playerSymbol;
-  const cpuSymbol = playerSymbol === 1 ? 0 : 1;
+  const playerSymbol = useRef(config.playerSymbol).current;
+  const cpuSymbol = useRef(playerSymbol === 1 ? 0 : 1).current;
 
   const [board, setBoard] = useState<BoardState>(Array(9).fill(null));
   const [currentTurn, setCurrentTurn] = useState<1 | 0>(1);
@@ -34,9 +34,16 @@ export function useTicTacToe(config: GameConfig) {
 
   const reset = () => {
     setBoard(Array(9).fill(null));
-    setCurrentTurn(1);
     setWinner(null);
     setIsGameOver(false);
+    setCurrentTurn(1);
+  };
+
+  const resetStats = () => {
+    setXWins(0);
+    setOWins(0);
+    setTies(0);
+    localStorage.removeItem('tic-tac-toe-stats');
   };
 
   const updateBoard = (index: number, value: 1 | 0) => {
@@ -48,7 +55,6 @@ export function useTicTacToe(config: GameConfig) {
   const handlePlayerMove = (index: number) => {
     if (isGameOver || board[index] !== null) return;
     if (config.mode === 'cpu' && currentTurn !== playerSymbol) return;
-
     updateBoard(index, currentTurn);
   };
 
@@ -106,14 +112,6 @@ export function useTicTacToe(config: GameConfig) {
     }
   };
 
-  const resetStats = () => {
-    setXWins(0);
-    setOWins(0);
-    setTies(0);
-    localStorage.removeItem('tic-tac-toe-stats');
-  };
-
-  // ✅ проверка победы
   useEffect(() => {
     const result = checkWinner(board);
     if (result !== null) {
@@ -123,21 +121,19 @@ export function useTicTacToe(config: GameConfig) {
       if (result === 1) setXWins(x => x + 1);
       else if (result === 0) setOWins(o => o + 1);
       else setTies(t => t + 1);
-
-      setTimeout(() => {
-        reset();
-      }, 300);
       return;
     }
 
     setCurrentTurn(prev => (prev === 1 ? 0 : 1));
   }, [board]);
 
-  // ✅ ход CPU
   useEffect(() => {
     if (config.mode !== 'cpu') return;
     if (currentTurn !== cpuSymbol) return;
     if (isGameOver) return;
+
+    const isFirstMove = board.every(cell => cell === null);
+    if (isFirstMove && cpuSymbol === 0) return;
 
     const timeout = setTimeout(() => {
       const move = getBestMove([...board], cpuSymbol, playerSymbol);
@@ -150,11 +146,14 @@ export function useTicTacToe(config: GameConfig) {
   return {
     board,
     currentTurn,
+    winner,
     xWins,
     oWins,
     ties,
     handlePlayerMove,
-    winner,
+    reset,
     resetStats,
+    playerSymbol,
+    cpuSymbol,
   };
 }

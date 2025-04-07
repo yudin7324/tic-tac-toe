@@ -9,3 +9,8 @@
   --color-silver: #A8BFC9;
   --color-silver-hover: #DBE8ED;
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

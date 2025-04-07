@@ -8,6 +8,7 @@ import IconRestart from '@/components/icons/IconRestart';
 import { GameConfig } from '@/types/types';
 import { useTicTacToe } from '@/hooks/useTicTacToe';
 import Modal from '@/components/Modal/Modal';
+import { useNavigate } from 'react-router-dom';
 
 
 interface GameProps {
@@ -15,14 +16,16 @@ interface GameProps {
 }
 
 const Game: FC<GameProps> = ({ config }) => {
+  const navigate = useNavigate();
   const {
     board,
     currentTurn,
     xWins,
     oWins,
     ties,
-    // winner,
+    winner,
     handlePlayerMove,
+    reset,
     resetStats,
   } = useTicTacToe(config);
 
@@ -33,13 +36,6 @@ const Game: FC<GameProps> = ({ config }) => {
       return config.playerSymbol === symbol ? '(P1)' : '(P2)';
     }
   };
-
-  // const getWinnerText = () => {
-  //   if (winner === 'tie') return "It's a tie!";
-  //   if (winner === 1) return "X wins!";
-  //   if (winner === 0) return "O wins!";
-  //   return '';
-  // };
 
   return (
     <div className="game">
@@ -73,7 +69,13 @@ const Game: FC<GameProps> = ({ config }) => {
         <Stat title={`O ${getPlayerLabel(0)}`} color="yellow" value={oWins} />
       </div>
 
-      <Modal />
+      <Modal
+        isOpen={winner !== null}
+        winner={winner}
+        playerSymbol={config.playerSymbol}
+        onQuit={() => navigate('/')}
+        onNext={() => reset()}
+      />
     </div>
   );
 };
