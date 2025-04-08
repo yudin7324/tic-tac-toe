@@ -124,7 +124,8 @@ export function useTicTacToe(config: GameConfig) {
       return;
     }
 
-    setCurrentTurn(prev => (prev === 1 ? 0 : 1));
+    console.log('call')
+    setCurrentTurn((prev) => ((prev) === 1 ? 0 : 1));
   }, [board]);
 
   useEffect(() => {

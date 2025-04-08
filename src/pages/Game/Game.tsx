@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import './game.scss';
 import Cell from '@/components/Cell/Cell';
 import IconLogo from '@/components/icons/IconLogo';
@@ -29,6 +29,10 @@ const Game: FC<GameProps> = ({ config }) => {
     resetStats,
   } = useTicTacToe(config);
 
+  useEffect(() => {
+    console.log(currentTurn);
+  }, [currentTurn])
+
   const getPlayerLabel = (symbol: 1 | 0) => {
     if (config.mode === 'cpu') {
       return config.playerSymbol === symbol ? '(YOU)' : '(CPU)';
@@ -39,43 +43,45 @@ const Game: FC<GameProps> = ({ config }) => {
 
   return (
     <div className="game">
-      <div className="game__heading">
-        <IconLogo />
-        <Turn value={currentTurn} />
-        <button
-          className="game__restart"
-          type="button"
-          aria-label="restart button"
-          onClick={resetStats}
-        >
-          <IconRestart />
-        </button>
-      </div>
+      <div className='game__wrap'>
+        <div className="game__heading">
+          <IconLogo />
+          <Turn value={currentTurn} />
+          <button
+            className="game__restart"
+            type="button"
+            aria-label="restart button"
+            onClick={resetStats}
+          >
+            <IconRestart />
+          </button>
+        </div>
 
-      <div className="game__grid">
-        {board.map((value, index) => (
-          <Cell
-            key={index}
-            value={value}
-            preview={currentTurn}
-            onClick={() => handlePlayerMove(index)}
-          />
-        ))}
-      </div>
+        <div className="game__grid">
+          {board.map((value, index) => (
+            <Cell
+              key={index}
+              value={value}
+              preview={currentTurn}
+              onClick={() => handlePlayerMove(index)}
+            />
+          ))}
+        </div>
 
-      <div className="game__statistics">
-        <Stat title={`X ${getPlayerLabel(1)}`} color="blue" value={xWins} />
-        <Stat title="TIES" color="silver" value={ties} />
-        <Stat title={`O ${getPlayerLabel(0)}`} color="yellow" value={oWins} />
-      </div>
+        <div className="game__statistics">
+          <Stat title={`X ${getPlayerLabel(1)}`} color="blue" value={xWins} />
+          <Stat title="TIES" color="silver" value={ties} />
+          <Stat title={`O ${getPlayerLabel(0)}`} color="yellow" value={oWins} />
+        </div>
 
-      <Modal
-        isOpen={winner !== null}
-        winner={winner}
-        playerSymbol={config.playerSymbol}
-        onQuit={() => navigate('/')}
-        onNext={() => reset()}
-      />
+        <Modal
+          isOpen={winner !== null}
+          winner={winner}
+          playerSymbol={config.playerSymbol}
+          onQuit={() => navigate('/')}
+          onNext={() => reset()}
+        />
+      </div>
     </div>
   );
 };

@@ -1,7 +1,19 @@
 .game {
-  display: flex;
-  flex-direction: column;
-  gap: 19px;
+  padding: 24px 0;  
+  
+  @media (min-width: 600px) {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0;
+  }
+
+  &__wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 19px;
+  }
   
   &__heading {
     display: grid;
@@ -17,7 +29,7 @@
   &__grid {
     display: grid;
     grid-template-columns: repeat(3, 96px);
-    grid-template-rows: repeat(3, 76px);
+    grid-template-rows: repeat(3, 96px);
     gap: 20px;
 
     @media (min-width: 600px) {
