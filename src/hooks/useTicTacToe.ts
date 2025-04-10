@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { GameConfig } from '@/types/types';
+import { GameConfig, WinnerResult } from '@/types/types';
 
 type CellValue = 1 | 0 | null;
 type BoardState = CellValue[];
@@ -18,18 +18,25 @@ export function useTicTacToe(config: GameConfig) {
   const [currentTurn, setCurrentTurn] = useState<1 | 0>(1);
   const [winner, setWinner] = useState<1 | 0 | 'tie' | null>(null);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [winningPattern, setWinningPattern] = useState<number[] | null>(null);
 
   const [xWins, setXWins] = useState(0);
   const [oWins, setOWins] = useState(0);
   const [ties, setTies] = useState(0);
 
-  const checkWinner = (board: BoardState): 1 | 0 | 'tie' | null => {
-    for (const [a, b, c] of WIN_PATTERNS) {
+  const checkWinner = (board: BoardState): WinnerResult => {
+    for (const pattern of WIN_PATTERNS) {
+      const [a, b, c] = pattern;
       if (board[a] !== null && board[a] === board[b] && board[a] === board[c]) {
-        return board[a];
+        return { winner: board[a], pattern };
       }
     }
-    return board.every(cell => cell !== null) ? 'tie' : null;
+  
+    if (board.every(cell => cell !== null)) {
+      return { winner: 'tie' };
+    }
+  
+    return null;
   };
 
   const reset = () => {
@@ -37,13 +44,6 @@ export function useTicTacToe(config: GameConfig) {
     setWinner(null);
     setIsGameOver(false);
     setCurrentTurn(1);
-  };
-
-  const resetStats = () => {
-    setXWins(0);
-    setOWins(0);
-    setTies(0);
-    localStorage.removeItem('tic-tac-toe-stats');
   };
 
   const updateBoard = (index: number, value: 1 | 0) => {
@@ -87,10 +87,13 @@ export function useTicTacToe(config: GameConfig) {
     human: CellValue
   ): number => {
     const result = checkWinner(board);
-    if (result === ai) return 10 - depth;
-    if (result === human) return depth - 10;
-    if (board.every(c => c !== null)) return 0;
-
+  
+    if (result !== null) {
+      if (result.winner === ai) return 10 - depth;
+      if (result.winner === human) return depth - 10;
+      if (result.winner === 'tie') return 0;
+    }
+  
     if (isMax) {
       let best = -Infinity;
       board.forEach((c, i) => {
@@ -116,13 +119,21 @@ export function useTicTacToe(config: GameConfig) {
 
   useEffect(() => {
     const result = checkWinner(board);
+  
     if (result !== null) {
-      setWinner(result);
       setIsGameOver(true);
   
-      if (result === 1) setXWins(x => x + 1);
-      else if (result === 0) setOWins(o => o + 1);
-      else setTies(t => t + 1);
+      if (result.winner === 'tie') {
+        setWinner('tie');
+        setTies(t => t + 1);
+      } else {
+        setWinner(result.winner);
+        setWinningPattern(result.pattern);
+        if (result.winner === 1) setXWins(x => x + 1);
+        else setOWins(o => o + 1);
+      }
+  
+      return;
     }
   }, [board]);
 
@@ -152,8 +163,8 @@ export function useTicTacToe(config: GameConfig) {
     ties,
     handlePlayerMove,
     reset,
-    resetStats,
     playerSymbol,
     cpuSymbol,
+    winningPattern,
   };
 }

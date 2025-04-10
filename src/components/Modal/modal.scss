@@ -56,10 +56,18 @@
 
     &--blue {
       color: var(--color-light-blue);
+
+      svg {
+        fill: var(--color-light-blue);
+      }
     }
 
     &--yellow {
       color: var(--color-light-yellow);
+
+      svg {
+        fill: var(--color-light-yellow);
+      }
     }
   }
 

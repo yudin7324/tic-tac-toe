@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import './game.scss';
 import Cell from '@/components/Cell/Cell';
 import IconLogo from '@/components/icons/IconLogo';
@@ -26,12 +26,8 @@ const Game: FC<GameProps> = ({ config }) => {
     winner,
     handlePlayerMove,
     reset,
-    resetStats,
+    winningPattern,
   } = useTicTacToe(config);
-
-  useEffect(() => {
-    console.log(currentTurn);
-  }, [currentTurn])
 
   const getPlayerLabel = (symbol: 1 | 0) => {
     if (config.mode === 'cpu') {
@@ -51,21 +47,27 @@ const Game: FC<GameProps> = ({ config }) => {
             className="game__restart"
             type="button"
             aria-label="restart button"
-            onClick={resetStats}
+            onClick={reset}
           >
             <IconRestart />
           </button>
         </div>
 
         <div className="game__grid">
-          {board.map((value, index) => (
-            <Cell
-              key={index}
-              value={value}
-              preview={currentTurn}
-              onClick={() => handlePlayerMove(index)}
-            />
-          ))}
+          {board.map((value, index) => {
+            const isWinning = winningPattern?.includes(index) ?? false;
+
+            return (
+              <Cell
+                key={index}
+                value={value}
+                preview={currentTurn}
+                onClick={() => handlePlayerMove(index)}
+                isWinning={isWinning}
+                winner={winner === 0 || winner === 1 ? winner : null}
+              />
+            );
+          })}
         </div>
 
         <div className="game__statistics">

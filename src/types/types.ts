@@ -9,3 +9,5 @@ export interface GameConfig {
 }
 
 export type BoardState = (PlayerSymbol)[];
+
+export type WinnerResult = { winner: 0 | 1, pattern: number[] } | { winner: 'tie' } | null;

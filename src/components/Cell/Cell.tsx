@@ -9,16 +9,23 @@ interface CellProps {
   value: 1 | 0 | null;
   onClick: () => void;
   preview: 1 | 0;
+  isWinning: boolean;
+  winner: 1 | 0 | null;
 }
 
-const Cell: FC<CellProps> = ({ value, onClick, preview }) => {
+const Cell: FC<CellProps> = ({ value, onClick, preview, isWinning, winner }) => {
   const [hover, setHover] = useState(false);
 
   const isEmpty = value === null;
 
+  const getCellClass = () => {
+    if (!isWinning) return '';
+    return `cell--winning-${winner}`;
+  };
+
   return (
     <button
-      className="cell"
+      className={`cell ${value === 1 ? 'cell--blue' : 'cell--yellow'} ${getCellClass()}`}
       onClick={onClick}
       disabled={!isEmpty}
       onMouseEnter={() => setHover(true)}
@@ -29,7 +36,7 @@ const Cell: FC<CellProps> = ({ value, onClick, preview }) => {
 
       {isEmpty && hover && (
         <div className="cell__preview">
-          {preview === 1 ? <IconOutlineX /> : <IconOutlineO/> }
+          {preview === 1 ? <IconOutlineX /> : <IconOutlineO />}
         </div>
       )}
     </button>
