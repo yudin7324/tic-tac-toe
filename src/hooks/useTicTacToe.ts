@@ -60,22 +60,36 @@ export function useTicTacToe(config: GameConfig) {
     setCurrentTurn((prev) => (prev === 1 ? 0 : 1));
   };
 
-  const getBestMove = (board: BoardState, ai: CellValue, human: CellValue): number => {
+  const getBestMove = (
+    board: BoardState,
+    ai: CellValue,
+    human: CellValue,
+    difficulty = 0.8
+  ): number => {
+    const possibleMoves = board
+      .map((cell, i) => (cell === null ? i : null))
+      .filter((i): i is number => i !== null);
+  
+    const shouldPlayBest = Math.random() < difficulty;
+  
+    if (!shouldPlayBest) {
+      const randomIndex = Math.floor(Math.random() * possibleMoves.length);
+      return possibleMoves[randomIndex];
+    }
+  
     let bestScore = -Infinity;
     let move = -1;
-
-    board.forEach((cell, i) => {
-      if (cell === null) {
-        board[i] = ai;
-        const score = minimax(board, 0, false, ai, human);
-        board[i] = null;
-        if (score > bestScore) {
-          bestScore = score;
-          move = i;
-        }
+  
+    possibleMoves.forEach((i) => {
+      board[i] = ai;
+      const score = minimax(board, 0, false, ai, human);
+      board[i] = null;
+      if (score > bestScore) {
+        bestScore = score;
+        move = i;
       }
     });
-
+  
     return move;
   };
 
@@ -146,7 +160,7 @@ export function useTicTacToe(config: GameConfig) {
     if (isFirstMove && cpuSymbol === 0) return;
   
     const timeout = setTimeout(() => {
-      const move = getBestMove([...board], cpuSymbol, playerSymbol);
+      const move = getBestMove([...board], cpuSymbol, playerSymbol, 0.8);
       updateBoard(move, cpuSymbol);
       setCurrentTurn(playerSymbol);
     }, 300);
