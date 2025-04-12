@@ -21,14 +21,14 @@ const Select: FC<SelectProps> = ({ playerSymbol, setPlayerSymbol }) => {
           onChange={() => setPlayerSymbol(playerSymbol === 0 ? 1 : 0)} 
           id="select"
         />
-        <div className="select__slider">
-          <div className={`select__slider-icon ${playerSymbol === 1 && 'active'}`}>
+        <span className="select__slider">
+          <span className={`select__slider-icon ${playerSymbol === 1 && 'active'}`}>
             <IconSelectX />
-          </div>
-          <div className={`select__slider-icon ${playerSymbol === 0 && 'active'}`}>
+          </span>
+          <span className={`select__slider-icon ${playerSymbol === 0 && 'active'}`}>
             <IconSelectO />
-          </div>
-        </div>
+          </span>
+        </span>
       </label>
       <div className='select__subtitle'>REMEMBER : X GOES FIRST</div>
     </div>
