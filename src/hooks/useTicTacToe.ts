@@ -23,18 +23,11 @@ export function useTicTacToe(config: GameConfig) {
     }
   })();
 
-  const [board, setBoard] = useState<BoardState>(
-    savedState?.board ?? Array(9).fill(null)
-  );
-
-  const [currentTurn, setCurrentTurn] = useState<1 | 0>(
-    savedState?.currentTurn ?? 1
-  );
-
+  const [board, setBoard] = useState<BoardState>(savedState?.board ?? Array(9).fill(null));
+  const [currentTurn, setCurrentTurn] = useState<1 | 0>(savedState?.currentTurn ?? 1);
   const [winner, setWinner] = useState<1 | 0 | 'tie' | null>(null);
   const [isGameOver, setIsGameOver] = useState(false);
   const [winningPattern, setWinningPattern] = useState<number[] | null>(null);
-
   const [xWins, setXWins] = useState<number>(savedState?.xWins ?? 0);
   const [oWins, setOWins] = useState<number>(savedState?.oWins ?? 0);
   const [ties, setTies] = useState<number>(savedState?.ties ?? 0);

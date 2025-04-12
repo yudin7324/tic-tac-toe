@@ -24,17 +24,19 @@ const App = () => {
   }, [gameConfig]);
 
   return (
-    <div className='container'>
-      <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={<Home gameConfig={gameConfig} setGameConfig={setGameConfig} />}
-          />
-          <Route path="/game" element={<Game config={gameConfig} />} />
-        </Routes>
-      </Router>
-    </div>
+    <main className='main'>
+      <div className='container'>
+        <Router>
+          <Routes>
+            <Route
+              path="/"
+              element={<Home gameConfig={gameConfig} setGameConfig={setGameConfig} />}
+              />
+            <Route path="/game" element={<Game config={gameConfig} />} />
+          </Routes>
+        </Router>
+      </div>
+    </main>
   );
 };
 
