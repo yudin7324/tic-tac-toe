@@ -12,7 +12,8 @@ interface SelectProps {
 const Select: FC<SelectProps> = ({ playerSymbol, setPlayerSymbol }) => {
   return (
     <div className='select'>
-      <label className='select__title h-xs' htmlFor="select">PICK PLAYER 1’S MARK</label>
+      <h1 className='select__title h-xs'>PICK PLAYER 1’S MARK</h1>
+      <label htmlFor="select" className='select__label--hidden'>PICK PLAYER 1’S MARK</label>
       <label className="select__switch">
         <input 
           className='select__checkbox'
