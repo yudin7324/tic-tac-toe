@@ -18,6 +18,7 @@ const Home: FC<HomeProps> = ({ gameConfig, setGameConfig }) => {
     const config = { ...gameConfig, mode };
     setGameConfig(config);
     localStorage.setItem('game-config', JSON.stringify(config));
+    localStorage.setItem('tic-tac-toe-state', '');
     navigate('/game');
   };
 

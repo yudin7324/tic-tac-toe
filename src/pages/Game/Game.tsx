@@ -10,7 +10,6 @@ import { useTicTacToe } from '@/hooks/useTicTacToe';
 import Modal from '@/components/Modal/Modal';
 import { useNavigate } from 'react-router-dom';
 
-
 interface GameProps {
   config: GameConfig;
 }

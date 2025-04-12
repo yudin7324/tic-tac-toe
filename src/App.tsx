@@ -10,14 +10,14 @@ const DEFAULT_CONFIG: GameConfig = {
 };
 
 const App = () => {
-  const [gameConfig, setGameConfig] = useState<GameConfig>(DEFAULT_CONFIG);
+  const [gameConfig, setGameConfig] = useState<GameConfig>(() => {
+    const saved = localStorage.getItem('game-config');
+    return saved ? JSON.parse(saved) : DEFAULT_CONFIG;
+  });
 
   useEffect(() => {
-    const saved = localStorage.getItem('game-config');
-    if (saved) {
-      setGameConfig(JSON.parse(saved));
-    }
-  }, []);
+    localStorage.setItem('game-config', JSON.stringify(gameConfig));
+  }, [gameConfig]);
 
   useEffect(() => {
     localStorage.setItem('game-config', JSON.stringify(gameConfig));

@@ -14,15 +14,30 @@ export function useTicTacToe(config: GameConfig) {
   const playerSymbol = useRef(config.playerSymbol).current;
   const cpuSymbol = useRef(playerSymbol === 1 ? 0 : 1).current;
 
-  const [board, setBoard] = useState<BoardState>(Array(9).fill(null));
-  const [currentTurn, setCurrentTurn] = useState<1 | 0>(1);
+  const savedState = (() => {
+    try {
+      const raw = localStorage.getItem('tic-tac-toe-state');
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  })();
+
+  const [board, setBoard] = useState<BoardState>(
+    savedState?.board ?? Array(9).fill(null)
+  );
+
+  const [currentTurn, setCurrentTurn] = useState<1 | 0>(
+    savedState?.currentTurn ?? 1
+  );
+
   const [winner, setWinner] = useState<1 | 0 | 'tie' | null>(null);
   const [isGameOver, setIsGameOver] = useState(false);
   const [winningPattern, setWinningPattern] = useState<number[] | null>(null);
 
-  const [xWins, setXWins] = useState(0);
-  const [oWins, setOWins] = useState(0);
-  const [ties, setTies] = useState(0);
+  const [xWins, setXWins] = useState<number>(savedState?.xWins ?? 0);
+  const [oWins, setOWins] = useState<number>(savedState?.oWins ?? 0);
+  const [ties, setTies] = useState<number>(savedState?.ties ?? 0);
 
   const checkWinner = (board: BoardState): WinnerResult => {
     for (const pattern of WIN_PATTERNS) {
@@ -168,6 +183,19 @@ export function useTicTacToe(config: GameConfig) {
     return () => clearTimeout(timeout);
   }, [board, currentTurn, isGameOver]);
 
+  useEffect(() => {
+    localStorage.setItem(
+      'tic-tac-toe-state',
+      JSON.stringify({
+        board,
+        currentTurn,
+        xWins,
+        oWins,
+        ties,
+      })
+    );
+  }, [board, xWins, oWins, ties, currentTurn])
+
   return {
     board,
     currentTurn,
@@ -177,8 +205,6 @@ export function useTicTacToe(config: GameConfig) {
     ties,
     handlePlayerMove,
     reset,
-    playerSymbol,
-    cpuSymbol,
     winningPattern,
   };
 }
