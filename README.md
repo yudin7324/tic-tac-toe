@@ -1,6 +1,6 @@
 # Tic Tac Toe
 
-![Design preview for the Tic Tac Toe coding challenge](./preview.jpg)
+![Design preview for the Tic Tac Toe coding challenge](./preview.png)
 
 ## Overview
 This is a Tic-Tac-Toe game that offers an interactive experience for players. It features two different game modes: playing solo against the computer or multiplayer against another person. The app adapts its layout to different screen sizes, providing an optimal experience on both desktop and mobile devices. It also includes hover states for all interactive elements to enhance the user interface.
